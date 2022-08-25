@@ -93,7 +93,12 @@ int boostmultivector ( int method )
 	// + NOTE on this code:
 	//-------------------------------------------------------------------------------
 	// [+] This code computes the cosine(Theta) by 2 different definition
-	//  |-- The first definition compute the boosted angle between the Z boson
+	//  |-- The first definition consider the angle between the boosted Z boson
+	//  |   and its new z-axis,
+	//  |   `-- The boost vector is defined by the velocity of the Higgs boson
+	//  |       in the lab frame
+	//  |
+	//  |-- The second definition compute the boosted angle between the Z boson
 	//  |   and the Higgs boson.
 	//  |   |-- This definition require both the Z boson and the Higgs boson
 	//  |   |   being rotated before boosting,
@@ -101,14 +106,14 @@ int boostmultivector ( int method )
 	//  |   `-- The boost vector is defined by the velocity of the Higgs boson
 	//  |       after rotation
 	//  |
-	//  `-- The second definition consider the angle between the boosted Z boson
-	//      and its new z-axis,
-	//      `-- The boost vector is defined by the velocity of the Higgs boson
-	//          after rotation
+	//  |-- The thrid definition consider the angle between the boosted Z boson
+	//  |   and the Higgs in the lab frame
+	//  |
 	// [+] Usage:
 	//  |-- root -l -b -q boostmultivector.C\(<method>\)
-	//  `-- method = 1 or 2
+	//  `-- method = 1 or 2 or 3
 	//-------------------------------------------------------------------------------
+
 	printf ( " [+] Program starts\n" );
 
 	gErrorIgnoreLevel = kError, kBreak, kSysError, kFatal;
@@ -284,8 +289,7 @@ int boostmultivector ( int method )
 		cosine_theta = cos ( vec4_Zboson.Theta( ) );
 		boost_theta  = vec4_Zboson.Theta( );
 
-		// * remove the if statement to calculate boost without rotation
-		if ( method == 1 )
+		if ( method == 3 )
 		{
 			cosine_theta = cos ( vec4_Zboson.Angle( vec4_Higgs.Vect() ) );
 			boost_theta  = vec4_Zboson.Angle( vec4_Higgs.Vect( ) );
